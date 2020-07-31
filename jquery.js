@@ -147,4 +147,6 @@ $.parseHTML = function(element) {
 
   // return it as an array
   return Array.prototype.slice.call(extractedElem);
+
+  
 };
