@@ -1,0 +1,7 @@
+.vercel
+
+node_modules
+
+*.html
+main.js
+*.css
