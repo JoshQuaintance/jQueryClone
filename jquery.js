@@ -53,6 +53,9 @@ String.prototype.createElement = function() {
   return extractElem;
 };
 
+String.prototype.escapeTags = function() {
+  return this.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+};
 
 
 /**
@@ -123,6 +126,26 @@ $.fn = $.prototype = {
 
   forEach: function(callback) {
     return this.toArray().forEach(callback);
+  },
+
+  first: function() {
+    return this[0];
+  },
+
+  last: function() {
+    return this[this.length - 1];
+  },
+
+  /**
+   * Custom Commands
+   */
+  getLocalName: function(el) {
+    const id = el.id ? `#${el.id}` : '';
+    let className = '';
+    el.className.split(' ').forEach(elClass => {
+      return className += `.${elClass}`;
+    });
+    return `${el.localName}${id}${className}`;
   }
 };
 
@@ -255,7 +278,7 @@ init.onclick = function(handler) {
 };
 
 init.onhover = function(handlerIn, handlerOut) {
-  this.forEach(elem => {
+  this.forEach(elem => { 
     elem.addEventListener('mouseover', handlerIn);
     elem.addEventListener('mouseout', handlerOut);
   });
@@ -288,6 +311,49 @@ init.text = function(args) {
       elem.textContent = args;
     });
     
+    return this;
+  }
+};
+
+/**
+ * Inner HTMl for the element.
+ * * If there is no argument given, and the object contains
+ * * more than 1 html element, it will return an object
+ * * in which the keys will be the local name of the 
+ * * element, and the value will be the inner html text
+ * * of the element.
+ * @param {Function | String} args 
+ * @param {Boolean} safeMode Default: true
+ * * If safeMode is true, it will escape all
+ * * Script tag
+ */
+init.html = function (args, safeMode = true) {
+  if (args == undefined || args == null) {
+    if (this.length > 1) {
+      let ret = {};
+      this.forEach(el => {
+        ret[this.getLocalName(el)] = el.innerHTML;
+      });
+
+      return ret;
+    }
+
+    return this.first().innerHTML;
+  } else if (typeof args == 'function') {
+    this.forEach((elem, i) => {
+      let callbackRet = args(i, elem);
+
+      if (safeMode) callbackRet = callbackRet.escapeTags();
+      elem.innerHTML = callbackRet;
+    });
+
+    return this;
+  } else if (typeof args == 'string') {
+    this.forEach(elem => {
+      if (safeMode) args = args.escapeTags();
+      elem.innerHTML = args;
+    });
+
     return this;
   }
 };
