@@ -4,6 +4,7 @@
 # Except these files
 !jquery.js
 !jqueryIndent.js
+!README.md
 !.eslintrc.json
 !package.json
 !package-lock.json
