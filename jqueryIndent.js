@@ -1,28 +1,29 @@
+/* eslint-disable semi */
 /**
  * Just some setup
  */
 // Error setups
 // eslint-disable-next-line no-unused-vars
-const Err = str => console.error(new Error(str))                                                        ;
+const Err = str => console.error(new Error(str))                                                        
 // eslint-disable-next-line no-unused-vars      
-const TypeErr = str => console.error(new TypeError(str))                                                ;
+const TypeErr = str => console.error(new TypeError(str))                                                
 // eslint-disable-next-line no-unused-vars      
-const RefErr = str => console.error(new ReferenceError(str))                                            ;
+const RefErr = str => console.error(new ReferenceError(str))                                            
 // eslint-disable-next-line no-unused-vars      
-const SynErr = str => console.error(new SyntaxError(str))                                               ;
+const SynErr = str => console.error(new SyntaxError(str))                                               
         
-const arr = []                                                                                          ;
-const slice = arr.slice                                                                                 ;
+const arr = []                                                                                          
+const slice = arr.slice                                                                                 
         
 String.prototype.isValidHTML = function()                                                               {
-  let hasTags = /<\/?.*\/?>/g.test(this)                                                                ;
-  if (!hasTags) return false                                                                            ;
-  let indexOfEnding = this.split('').indexOf('>')                                                       ;
-  let tag = this.split('').slice(0, indexOfEnding).join('').split(' ').slice(0, 1) + '>'                ;
-  let elemName = tag.replace(/[</>]/g, ' ').trim()                                                      ;
-  let createElem = document.createElement(elemName)                                                     ;    
-  if (createElem.constructor.name == 'HTMLUnknownElement') return false                                 ;
-  return true                                                                                           ;};
+  let hasTags = /<\/?.*\/?>/g.test(this)                                                                
+  if (!hasTags) return false                                                                            
+  let indexOfEnding = this.split('').indexOf('>')                                                       
+  let tag = this.split('').slice(0, indexOfEnding).join('').split(' ').slice(0, 1) + '>'                
+  let elemName = tag.replace(/[</>]/g, ' ').trim()                                                      
+  let createElem = document.createElement(elemName)                                                         
+  if (createElem.constructor.name == 'HTMLUnknownElement') return false                                 
+  return true                                                                                           }
         
         
 /**     
@@ -30,29 +31,29 @@ String.prototype.isValidHTML = function()                                       
  */     
 String.prototype.createElement = function()                                                             {
   // Checks if it has the < > brackets like HTML elements       
-  let hasTags = /<\/?.*\/?>/g.test(this)                                                                ;
-  if (!hasTags) return                                                                                  ;
+  let hasTags = /<\/?.*\/?>/g.test(this)                                                                
+  if (!hasTags) return                                                                                  
         
   // Checks if it's a valid HTML        
-  if (!this.isValidHTML()) return TypeErr(`'${this}' is not a valid HTML tag`)                          ;
+  if (!this.isValidHTML()) return TypeErr(`'${this}' is not a valid HTML tag`)                          
         
   // create a new DOMParser from the DOMParser Api      
-  let parser = new DOMParser()                                                                          ;
+  let parser = new DOMParser()                                                                          
         
   // Parse the given string to html element     
-  let parsedHtml = parser.parseFromString(this, 'text/html')                                            ;
+  let parsedHtml = parser.parseFromString(this, 'text/html')                                            
         
   // Selects the body from the virtual DOM      
-  let bodyElem = parsedHtml.querySelector('body')                                                       ;
+  let bodyElem = parsedHtml.querySelector('body')                                                       
         
   // Extract the child nodes from the body tag from the virtual DOM     
-  let extractElem = bodyElem.childNodes                                                                 ;
+  let extractElem = bodyElem.childNodes                                                                 
         
   // returns the element        
-  return extractElem                                                                                    ;};
+  return extractElem                                                                                    }
         
 String.prototype.escapeTags = function()                                                                {
-  return this.replace(/</g, '&lt;').replace(/>/g, '&gt;')                                               ;};
+  return this.replace(/</g, '&lt').replace(/>/g, '&gt')                                               }
         
 /**     
  * jQuery Function      
@@ -65,24 +66,24 @@ const $ = function(argument)                                                    
    * @param {String} element HTML string to parse       
    */   
   this.parseHTML = function(element)                                                                    {
-    if (typeof element !== 'string') return TypeErr('Parameter needs to be a string.')                  ;
+    if (typeof element !== 'string') return TypeErr('Parameter needs to be a string.')                  
         
     // New DOMParser    
-    const parser = new DOMParser()                                                                      ;
+    const parser = new DOMParser()                                                                      
         
     // parses the string into html      
-    const parsedHtml = parser.parseFromString(element, 'text/html')                                     ;
+    const parsedHtml = parser.parseFromString(element, 'text/html')                                     
         
     // Get the body element     
-    const bodyElem = parsedHtml.querySelector('body')                                                   ;
+    const bodyElem = parsedHtml.querySelector('body')                                                   
         
     // Get the child nodes of the body elements         
-    const extractedElem = bodyElem.childNodes                                                           ;
+    const extractedElem = bodyElem.childNodes                                                           
         
     // return it as an array    
-    return Array.prototype.slice.call(extractedElem)                                                    ;};
+    return Array.prototype.slice.call(extractedElem)                                                    }
         
-  return new $.fn.jQueryObj(argument)                                                                   ;};
+  return new $.fn.jQueryObj(argument)                                                                   }
         
 /**     
  * jQuery prototype properties          
@@ -97,40 +98,40 @@ $.fn = $.prototype                                                              
   splice: Array.prototype.splice                                                                        ,
         
   toArray: function()                                                                                   {
-    return slice.call(this, 'tes')                                                                      ;},
+    return slice.call(this, 'tes')                                                                      },
         
   /**   
    * Turns everything inside the object into a string   
    */   
   toString: function()                                                                                  {
-    let ret = this || []                                                                                ;
-    let originLen = ret.length                                                                          ;
+    let ret = this || []                                                                                
+    let originLen = ret.length                                                                          
     this.toArray().forEach(function(el)                                                                 {
-      [].push.call(ret, el.outerHTML)                                                                   ;});
-    ret.splice(0, originLen)                                                                            ;
-    return ret                                                                                          ;},
+      [].push.call(ret, el.outerHTML)                                                                   })
+    ret.splice(0, originLen)                                                                            
+    return ret                                                                                          },
         
   map: function(callback)                                                                               {
-    return this.toArray().map(callback)                                                                 ;}, 
+    return this.toArray().map(callback)                                                                 }, 
         
   forEach: function(callback)                                                                           {
-    return this.toArray().forEach(callback)                                                             ;},
+    return this.toArray().forEach(callback)                                                             },
         
   first: function()                                                                                     {
-    return this[0]                                                                                      ;},
+    return this[0]                                                                                      },
         
   last: function()                                                                                      {
-    return this[this.length - 1]                                                                        ;},
+    return this[this.length - 1]                                                                        },
         
   /**   
    * Custom Commands    
    */   
   getLocalName: function(el)                                                                            {
-    const id = el.id ? `#${el.id}` : ''                                                                 ;
-    let className = ''                                                                                  ;
+    const id = el.id ? `#${el.id}` : ''                                                                 
+    let className = ''                                                                                  
     el.className.split(' ').forEach(function(elClass)                                                   {
-      return className += `.${elClass}`                                                                 ;});
-    return `${el.localName}${id}${className}`                                                           ;}};
+      return className += `.${elClass}`                                                                 })
+    return `${el.localName}${id}${className}`                                                           }}
         
 /**     
  * jQuery Object Constructor    
@@ -140,30 +141,30 @@ $.fn.jQueryObj = function(argument)                                             
         
   // If there is nothing passed in, just return         
   // The jQuery object (which is 'this')        
-  if (!argument) return this                                                                            ;
+  if (!argument) return this                                                                            
         
   // If the argument is a string        
         
   if (typeof argument == 'string')                                                                      {
     if (argument.isValidHTML())                                                                         {
-      const createdElem = argument.createElement()                                                      ;     
-      let ret = this || []                                                                              ;
+      const createdElem = argument.createElement()                                                           
+      let ret = this || []                                                                              
         
       createdElem.forEach(function(elem)                                                                {
-        arr.push.call(ret, elem)                                                                        ;});
-      return ret                                                                                        ;} 
+        arr.push.call(ret, elem)                                                                        })
+      return ret                                                                                        } 
     else                                                                                                {
-      const getElem = document.querySelectorAll(argument)                                               ;      
+      const getElem = document.querySelectorAll(argument)                                                     
                 
-      let ret = this || []                                                                              ;
+      let ret = this || []                                                                              
         
       getElem.forEach(function(elem)                                                                    {
-        arr.push.call(ret, elem)                                                                        ;});
-      return ret                                                                                        ;}} 
+        arr.push.call(ret, elem)                                                                        })
+      return ret                                                                                        }} 
   else if (typeof argument == 'function')                                                               {
-    document.addEventListener('DOMContentLoaded', argument)                                             ;}};
+    document.addEventListener('DOMContentLoaded', argument)                                             }}
         
-const init = $.fn.jQueryObj.prototype = $.fn                                                            ;
+const init = $.fn.jQueryObj.prototype = $.fn                                                            
         
 /**     
  * CSS Function         
@@ -171,37 +172,37 @@ const init = $.fn.jQueryObj.prototype = $.fn                                    
  */     
 init.css = function(...cssArgs)                                                                         {
   // Get the collection into an array   
-  const Collection = this.toArray()                                                                     ;
+  const Collection = this.toArray()                                                                     
         
   // If the args starts with a string   
   if (typeof cssArgs[0] === 'string')                                                                   {
-    const [ property, attribute ] = cssArgs                                                             ;
+    const [ property, attribute ] = cssArgs                                                             
     Collection.forEach(function(elem)                                                                   {
-      elem.style[property] = attribute                                                                  ;});} 
+      elem.style[property] = attribute                                                                  })} 
         
   else if (typeof cssArgs[0] == 'object')                                                               {
-    const cssProps = Object.entries(cssArgs[0])                                                         ;
+    const cssProps = Object.entries(cssArgs[0])                                                         
     cssProps.forEach(function([property, attribute])                                                    {
       Collection.forEach(function(el)                                                                   {
-        el.style[property] = attribute                                                                  ;});});}
-  return this                                                                                           ;};
+        el.style[property] = attribute                                                                  })})}
+  return this                                                                                           }
                 
 /**     
  * Appends the elements into the attached element       
  * @param {Object | String} elements    
  */     
 init.append = function(elements)                                                                        {
-  const Collection = this.toArray()                                                                     ;
+  const Collection = this.toArray()                                                                     
   // if elements is an object           
   if (typeof elements == 'object')                                                                      {
-    Collection.forEach(target => elements.forEach(elem => target.append(elem)))                         ;}
+    Collection.forEach(target => elements.forEach(elem => target.append(elem)))                         }
         
   // If elements is a string    
   else if (typeof elements == 'string')                                                                 {
     // For each element inside the array attached       
     // append the given argument        
-    Collection.forEach(target => target.append(elements))                                               ;}
-  return this                                                                                           ;};
+    Collection.forEach(target => target.append(elements))                                               }
+  return this                                                                                           }
         
 /**     
  * Prepends the elements into the attached element      
@@ -210,16 +211,16 @@ init.append = function(elements)                                                
 init.prepend = function(elements)                                                                       {
   // if elements is an object           
   if (typeof elements == 'object')                                                                      {
-    this.forEach(target => elements.forEach(elem => target.prepend(elem)))                              ;}
+    this.forEach(target => elements.forEach(elem => target.prepend(elem)))                              }
   // If elements is a string    
         
   else if (typeof elements == 'string')                                                                 {
         
     // For each element inside the array attached       
     // prepend the given argument       
-    this.forEach(target => target.prepend(elements))                                                    ;}
+    this.forEach(target => target.prepend(elements))                                                    }
         
-  return this                                                                                           ;};
+  return this                                                                                           }
         
 /**     
  * Attaches an event listener on the element.   
@@ -227,24 +228,24 @@ init.prepend = function(elements)                                               
  * @param {Function} callback function callback         
  */     
 init.on = function(event, handler)                                                                      {
-  if (typeof event !== 'string') return TypeErr('Event have to be in string')                           ;
+  if (typeof event !== 'string') return TypeErr('Event have to be in string')                           
         
   this.forEach(function(elem)                                                                           {
-    elem.addEventListener(event, handler)                                                               ;});
+    elem.addEventListener(event, handler)                                                               })
         
-  return this                                                                                           ;};
+  return this                                                                                           }
         
 /**     
  * Shortcuts for common events          
  */     
 init.onclick = function(handler)                                                                        {
   this.forEach(function(elem)                                                                           {
-    elem.addEventListener('click', handler)                                                             ;});};
+    elem.addEventListener('click', handler)                                                             })}
         
 init.onhover = function(handlerIn, handlerOut) {        
   this.forEach(function(elem)                                                                           { 
-    elem.addEventListener('mouseover', handlerIn)                                                       ;
-    elem.addEventListener('mouseout', handlerOut)                                                       ;});};
+    elem.addEventListener('mouseover', handlerIn)                                                       
+    elem.addEventListener('mouseout', handlerOut)                                                       })}
         
 /**     
  *      
@@ -254,22 +255,22 @@ init.onhover = function(handlerIn, handlerOut) {
 init.text = function(args)                                                                              {
   if (args == undefined || args == null)                                                                {
         
-    let text = ''                                                                                       ;
+    let text = ''                                                                                       
     this.forEach(function(elem)                                                                         {
-      text += elem.textContent                                                                          ;});
+      text += elem.textContent                                                                          })
         
-    return text                                                                                         ;} 
+    return text                                                                                         } 
         
   else if (typeof args == 'function')                                                                   {
     this.forEach(function(elem, index)                                                                  {
-      let callbackRet = args(index, elem.textContent)                                                   ;
-      elem.textContent = callbackRet                                                                    ;});
-    return this                                                                                         ;} 
+      let callbackRet = args(index, elem.textContent)                                                   
+      elem.textContent = callbackRet                                                                    })
+    return this                                                                                         } 
         
   else if (typeof args == 'string')                                                                     {
     this.forEach(function(elem)                                                                         {
-      elem.textContent = args                                                                           ;});
-    return this                                                                                         ;}};
+      elem.textContent = args                                                                           })
+    return this                                                                                         }}
         
 /**     
  * Inner HTMl for the element.          
@@ -286,29 +287,29 @@ init.text = function(args)                                                      
 init.html = function (args, safeMode = true)                                                            {
   if (args == undefined || args == null)                                                                {
     if (this.length > 1)                                                                                {
-      let ret = {}                                                                                      ;
+      let ret = {}                                                                                      
       this.forEach(function(el)                                                                         {
-        ret[this.getLocalName(el)] = el.innerHTML                                                       ;});
-      return ret                                                                                        ;}
+        ret[this.getLocalName(el)] = el.innerHTML                                                       })
+      return ret                                                                                        }
                 
-    return this.first().innerHTML                                                                       ;} 
+    return this.first().innerHTML                                                                       } 
                 
   else if (typeof args == 'function')                                                                   {
     this.forEach(function(elem, i)                                                                      {
-      let callbackRet = args(i, elem)                                                                   ;
+      let callbackRet = args(i, elem)                                                                   
         
-      if (safeMode) callbackRet = callbackRet.escapeTags()                                              ;
-      elem.innerHTML = callbackRet                                                                      ;});
-    return this                                                                                         ;} 
+      if (safeMode) callbackRet = callbackRet.escapeTags()                                              
+      elem.innerHTML = callbackRet                                                                      })
+    return this                                                                                         } 
         
   else if (typeof args == 'string')                                                                     {
     this.forEach(function(elem)                                                                         {
-      if (safeMode) args = args.escapeTags()                                                            ;
-      elem.innerHTML = args                                                                             ;});
+      if (safeMode) args = args.escapeTags()                                                            
+      elem.innerHTML = args                                                                             })
         
-    return this                                                                                         ;}};
+    return this                                                                                         }}
         
-window.$ = $                                                                                            ;
+window.$ = $                                                                                            
 
 
 
